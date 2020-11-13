@@ -1,3 +1,5 @@
 run install.sh as root
 
-add the printer with the ppd at https://localhost:631
+Use the Ubuntu Printers dialog, choose "Add Printer" then wait for it to populate the list, then choose the printer from "Discovered network printers". Then on the next page it should recommend the correct driver.
+
+Original instructions: add the printer with the ppd at https://localhost:631
