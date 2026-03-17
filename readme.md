@@ -37,7 +37,7 @@ Add the flake to your `flake.nix` inputs and enable the module in your NixOS con
         ./configuration.nix
         dell-1320c.nixosModules.dell-1320c
         {
-          hardware.printers.dell-1320c.enable = true;
+          services.dell-1320c.enable = true;
         }
       ];
     };

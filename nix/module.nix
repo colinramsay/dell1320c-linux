@@ -3,11 +3,11 @@ flake:
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.hardware.printers.dell-1320c;
+  cfg = config.services.dell-1320c;
   driverPkg = flake.packages.${pkgs.stdenv.hostPlatform.system}.dell-1320c-driver;
 in
 {
-  options.hardware.printers.dell-1320c = {
+  options.services.dell-1320c = {
     enable = lib.mkEnableOption "Dell 1320c printer driver";
   };
 
