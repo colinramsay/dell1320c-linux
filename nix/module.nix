@@ -3,11 +3,11 @@ flake:
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.services.printing.drivers.dell-1320c;
+  cfg = config.hardware.printers.dell-1320c;
   driverPkg = flake.packages.${pkgs.stdenv.hostPlatform.system}.dell-1320c-driver;
 in
 {
-  options.services.printing.drivers.dell-1320c = {
+  options.hardware.printers.dell-1320c = {
     enable = lib.mkEnableOption "Dell 1320c printer driver";
   };
 
@@ -17,8 +17,5 @@ in
 
     # Add the driver package so CUPS can find the PPD and filters
     services.printing.drivers = [ driverPkg ];
-
-    # Ensure 32-bit libraries are available for the proprietary filters
-    hardware.opengl.driSupport32Bit = lib.mkDefault true;
   };
 }
