@@ -20,8 +20,5 @@
         default = self.packages.${system}.dell-1320c-driver;
       }
     );
-
-    nixosModules.dell-1320c = import ./nix/module.nix self;
-    nixosModules.default = self.nixosModules.dell-1320c;
   };
 }

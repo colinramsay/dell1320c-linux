@@ -16,11 +16,11 @@ However if you use the install process above it should work as long as you enabl
 
 # NixOS
 
-NixOS requires special handling because it doesn't follow the traditional Linux filesystem hierarchy. This repo provides a Nix flake and NixOS module for easy installation.
+NixOS requires special handling because it doesn't follow the traditional Linux filesystem hierarchy. This repo provides a Nix flake that packages the driver for NixOS.
 
-## Option 1: NixOS Module (Recommended)
+## Installation
 
-Add the flake to your `flake.nix` inputs and enable the module in your NixOS configuration:
+Add the flake to your `flake.nix` inputs and add the driver package to `services.printing.drivers`:
 
 ```nix
 # flake.nix
@@ -35,9 +35,11 @@ Add the flake to your `flake.nix` inputs and enable the module in your NixOS con
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        dell-1320c.nixosModules.dell-1320c
         {
-          services.dell-1320c.enable = true;
+          services.printing.enable = true;
+          services.printing.drivers = [
+            dell-1320c.packages.x86_64-linux.dell-1320c-driver
+          ];
         }
       ];
     };
@@ -51,28 +53,9 @@ Then rebuild your system:
 sudo nixos-rebuild switch
 ```
 
-The printer will be available in CUPS. Add it via the CUPS web interface at https://localhost:631 or using `lpadmin`.
-
-## Option 2: Package Only
-
-If you prefer to manage CUPS configuration yourself, you can add just the driver package:
-
-```nix
-# In your NixOS configuration
-{ pkgs, ... }:
-
-let
-  dell-1320c-driver = (builtins.getFlake "github:colinramsay/dell1320c-linux").packages.${pkgs.system}.dell-1320c-driver;
-in
-{
-  services.printing.enable = true;
-  services.printing.drivers = [ dell-1320c-driver ];
-}
-```
-
 ## Adding the Printer
 
-After rebuilding, add the printer via CUPS:
+After rebuilding, add the printer via the CUPS web interface:
 
 1. Open https://localhost:631 in your browser
 2. Go to Administration > Add Printer
